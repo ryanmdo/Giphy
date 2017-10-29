@@ -18,15 +18,22 @@
 
 
 
+    
 
+var topics = ['blockchain', 'bitcoin', 'ethereum', 'monero', 'vitalik', 'satoshi', 'cryptography', 'cryptocurrency', 'btc', 'eth'];
+var gifButtons = $('#gif-buttons');
 
-var topics = ['blockchain','bitcoin','ethereum','monero','vitalik','satoshi','cryptography','cryptocurrency','btc','eth'];
 
 
 //create button for each item in topics, recreates all buttons
 function createButtons(){
+    for (var i = 0; i < topic.length; i++) {
 
+        var button = $('<button>')
+        button.html = topic[i];
+        gifButtons.append(button);  
 
+    }
 }
 
 
@@ -56,3 +63,8 @@ function getRatings(){
 
 
 }
+
+
+
+
+createButtons()
