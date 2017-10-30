@@ -17,31 +17,64 @@
 
 
 
-
+$(document).ready(function(){
     
-
 var topics = ['blockchain', 'bitcoin', 'ethereum', 'monero', 'vitalik', 'satoshi', 'cryptography', 'cryptocurrency', 'btc', 'eth'];
-var gifButtons = $('#gif-buttons');
+
+
+
+
+//grab the elements
+var gifButtonRow = $('#gif-buttons');
+var gifAdd = $('#add-gif')
+var queryURL = "https://api.giphy.com/v1/gifs/search?q="
+var gifButtons
+var apiKey = "&api_key=dc6zaTOxFJmzC&limit=10"
 
 
 
 //create button for each item in topics, recreates all buttons
 function createButtons(){
-    for (var i = 0; i < topic.length; i++) {
+    for (var i = 0; i < topics.length; i++) {
 
         var button = $('<button>')
-        button.html = topic[i];
-        gifButtons.append(button);  
+        
+        button.html(topics[i]);
+        button.attr('id','gif-button')
+        button.attr('class','btn');
+        button.attr('data-topic',topics[i])
+        button.attr('animate','still')
+        console.log(button)
+        gifButtonRow.append(button);
+        
 
     }
+
+    gifButtons = $('button') 
 }
 
 
-//animates or pauses the clicked gif
-function clickAnimation(){
+createButtons()
 
 
-}
+
+
+//add-gif button clicked. add word to topics
+$('#add-gif').click(function(){
+
+    console.log(' add-gif WAS CLICKED')
+})
+
+
+
+//call the genTenGifs
+gifButtons.click(function(){
+
+    console.log('gif-button WAS CLICKED')
+    generateGifs($(this).attr('data-topic'))
+})
+
+
 
 //adds the user input to topic when the add button is pressed
 function addTopic(){
@@ -50,21 +83,77 @@ function addTopic(){
 }
 
 
-//grabs 10 gifs according to the button topic
-function getTenGifs(){
+
+//creates the ten gifs
+function generateGifs(topic){
+
+    var gifResult
+
+    $.ajax({
+        url:queryURL+topic+apiKey,
+        method:'GET'
+    }).done(function(response){
+        gifResult = response;
+        //console.log(response)
+
+        for(var i=0;i<10;i++){
+            var gif = $('<img>');
+            // /console.log(gifResult);
+            gif.attr('src',gifResult.data[i].images.fixed_height_still.url);
+            gif.attr('data-animate-url',gifResult.data[i].images.fixed_height.url);
+            gif.attr('data-still-url',gifResult.data[i].images.fixed_height_still.url);
+            gif.attr('data-state','still');
+            gif.attr('class','gif');
+            $('#gif-row').prepend(gif);
+
+            
+    
+        }
+    })
+
+}
+
+
+
+
+//gets jQueried button and returns the ratings of the gifs
+function getRatings(button){
 
 
 }
 
 
 
-//gets and returns the ratings of the gifs
-function getRatings(){
+$(document).on('click','.gif',function(){
 
+    var state = $(this).attr('data-state');
+    console.log(this)
+    if(state === 'still'){
+        $(this).attr('src',$(this).attr('data-animate-url'))
+        $(this).attr('data-state','animate')
+    }
 
+    else{
+        $(this).attr('src',$(this).attr('data-still-url'))
+        $(this).attr('data-state','still')
+    }
+    
+})
+
+function clickAnimation(){
+
+        
+            var state;
+            console.log('gif clicked!')
+        
 }
 
 
 
 
-createButtons()
+
+
+
+
+
+})
