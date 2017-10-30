@@ -35,6 +35,9 @@ var apiKey = "&api_key=dc6zaTOxFJmzC&limit=10"
 
 //create button for each item in topics, recreates all buttons
 function createButtons(){
+
+    gifButtonRow.empty()
+
     for (var i = 0; i < topics.length; i++) {
 
         var button = $('<button>')
@@ -62,7 +65,12 @@ createButtons()
 //add-gif button clicked. add word to topics
 $('#add-gif').click(function(){
 
-    console.log(' add-gif WAS CLICKED')
+
+    var input = $('.form-control').val().trim();
+    console.log('add-gif WAS CLICKED')
+    topics.push(input)
+    console.log(topics)
+    createButtons();
 })
 
 
@@ -74,13 +82,6 @@ gifButtons.click(function(){
     generateGifs($(this).attr('data-topic'))
 })
 
-
-
-//adds the user input to topic when the add button is pressed
-function addTopic(){
-
-
-}
 
 
 
@@ -116,11 +117,6 @@ function generateGifs(topic){
 
 
 
-//gets jQueried button and returns the ratings of the gifs
-function getRatings(button){
-
-
-}
 
 
 
@@ -139,18 +135,6 @@ $(document).on('click','.gif',function(){
     }
     
 })
-
-function clickAnimation(){
-
-        
-            var state;
-            console.log('gif clicked!')
-        
-}
-
-
-
-
 
 
 
